@@ -1,7 +1,7 @@
 <%= bootstrap_devise_error_messages! %>
 <div class="panel panel-default devise-bs">
   <div class="panel-heading">
-    <h4><%= t('.sign_up', default: 'Sign up') %></h4>
+    <h4><%= t('.sign_up', :default => "Sign up") %></h4>
   </div>
   <div class="panel-body">
     <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { role: 'form' }) do |f| %>
@@ -17,6 +17,17 @@
         <%= f.label :password_confirmation %>
         <%= f.password_field :password_confirmation, class: 'form-control' %>
       </div>
+        <%= fields_for( :tenant) do |w| %>
+            <div class="form-group col-md-6 no-left-padding">
+              <%= w.label :name, 'Organization' %>
+              <span class="description">(Unique name for your organization for new account)</span>
+              <%= w.text_field :name, required: true, class: "form-control" %>
+            </div>
+            <div class="form-group col-md-6 no-right-padding">
+              <%= w.label :plan %>
+              <%= w.select :plan, options_for_select(Plan.options, params[:plan]), {}, required: true, class: "form-control" %>
+            </div>
+        <% end %>
       <%= f.submit t('.sign_up', default: 'Sign up'), class: 'btn btn-primary' %>
     <% end %>
   </div>
